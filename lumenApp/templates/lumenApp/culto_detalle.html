@@ -1,0 +1,38 @@
+{% extends 'lumenApp/base.html' %}
+
+{% block title %}Detalle del Culto - {{ culto.tipo.nombre }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-3 text-center text-success">{{ culto.tipo.nombre }}</h2>
+
+    <p><strong>Fecha inicio:</strong> {{ culto.fecha_inicio }}</p>
+    <p><strong>Fecha fin:</strong> {% if culto.fecha_fin %}{{ culto.fecha_fin }}{% else %}No definida{% endif %}</p>
+    <p><strong>Descripción:</strong> {{ culto.descripcion|default:"Sin descripción" }}</p>
+
+    <h3 class="mt-4">Participantes</h3>
+    {% if culto.participacionculto_set.all %}
+        <ul class="list-group">
+            {% for participacion in culto.participacionculto_set.all %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <span>
+                    {{ participacion.hermano.nombre }} {{ participacion.hermano.apellidos }} - {{ participacion.rol.nombre }}
+                    {% if participacion.tramo %}- Tramo: {{ participacion.tramo }}{% endif %}
+                </span>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-muted">No hay participantes asignados.</p>
+    {% endif %}
+
+    <div class="mt-4">
+        {% if es_admin %}
+            <a href="{% url 'asignar_participante' culto.pk %}" class="btn btn-primary me-2">Añadir participante</a>
+            <a href="{% url 'eliminar_culto' culto.pk %}" class="btn btn-danger me-2">Eliminar culto</a>
+        {% endif %}
+
+        <a href="{% url 'cultos_lista' %}" class="btn btn-secondary">Volver a la lista</a>
+    </div>
+</div>
+{% endblock %}

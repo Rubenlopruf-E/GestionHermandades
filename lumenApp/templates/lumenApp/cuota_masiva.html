@@ -1,0 +1,19 @@
+{% extends 'lumenApp/base.html' %}
+
+{% block title %}Crear Cuotas Masivamente{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center text-success">Crear Cuotas Masivamente</h2>
+
+    <form method="post" class="mx-auto" style="max-width: 500px;">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success w-100">Crear Cuotas</button>
+    </form>
+
+    <div class="text-center mt-3">
+        <a href="{% url 'fichas_lista' %}" class="btn btn-secondary">Volver a la lista</a>
+    </div>
+</div>
+{% endblock %}

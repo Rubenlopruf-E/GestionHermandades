@@ -1,0 +1,68 @@
+{% extends 'lumenApp/base.html' %}
+
+{% block title %}Inicio - LumenHermandades{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+
+    <h1 class="text-center mb-4 text-primary">Bienvenido a LumenHermandades</h1>
+    {% if es_admin %}
+        <p class="text-center text-muted mb-5">Gestiona hermanos, cuotas, cultos y roles de forma sencilla.</p>
+    {% endif %}
+
+    {% if not es_admin %}
+        <p class="text-center text-muted mb-5">Gestiona tu ficha, cuotas y enterate de los cultos aquí.</p>
+    {% endif %}
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Hermanos</h5>
+                    <p class="card-text">Ver las fichas</p>
+                    <a href="{% url 'fichas_lista' %}" class="btn btn-primary">Ir a Hermanos</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Cultos</h5>
+                    <p class="card-text">Ver los cultos</p>
+                    <a href="{% url 'cultos_lista' %}" class="btn btn-warning">Ir a Cultos</a>
+                </div>
+            </div>
+        </div>
+
+        {% if es_admin %}
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Roles</h5>
+                        <p class="card-text">Asignar y eliminar roles a los hermanos.</p>
+                        <a href="{% url 'fichas_lista' %}" class="btn btn-info">Gestionar Roles</a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if not es_admin %}
+            <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Cuotas</h5>
+                            <p class="card-text">Asignar y eliminar roles a los hermanos.</p>
+                            <a href="{% url 'cuota_lista' hermano.pk %}" class="btn btn-info">Ver cuotas</a>
+                        </div>
+                    </div>
+            </div>
+        {% endif %}
+
+
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends 'lumenApp/base.html' %}
+
+{% block title %}Lista de Hermanos{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-primary mb-0">Lista de Hermanos</h1>
+        {% if es_admin %}
+            <a href="{% url 'crear_cuota_masiva' %}" class="btn btn-success">
+                <i class="bi bi-plus-circle"></i> Crear Cuotas Masivamente
+            </a>
+        {% endif %}
+    </div>
+
+    {% if es_admin %}
+    <div class="mb-3">
+        <form method="get" class="d-flex gap-2">
+            <select name="rol" class="form-select" style="max-width: 200px;" onchange="this.form.submit()">
+                <option value="">-- Filtrar por rol --</option>
+                {% for rol in roles %}
+                    <option value="{{ rol.id }}" {% if rol.id|stringformat:"s" == rol_seleccionado %}selected{% endif %}>{{ rol.nombre }}</option>
+                {% endfor %}
+            </select>
+            {% if rol_seleccionado %}
+                <a href="{% url 'fichas_lista' %}" class="btn btn-secondary btn-sm">Limpiar filtro</a>
+            {% endif %}
+        </form>
+    </div>
+    {% endif %}
+
+    {% if fichas %}
+    <div class="table-responsive">
+        <table id="tablahermanos" class="table table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Cuotas</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ficha in fichas %}
+                <tr>
+                    <td>{{ ficha.nombre }}</td>
+                    <td>{{ ficha.apellidos }}</td>
+                    <td><span class="badge bg-primary">{{ ficha.total_cuotas|default:"0" }}</span></td>
+                    <td>
+                        <a href="{% url 'detalle_hermano' ficha.pk %}" class="btn btn-sm btn-info" title="Ver detalle">
+                            <i class="bi bi-eye"></i> Ver
+                        </a>
+                        <a href="{% url 'editar_hermano' ficha.pk %}" class="btn btn-sm btn-warning" title="Editar">
+                            <i class="bi bi-pencil"></i> Editar
+                        </a>
+                        {% if es_admin %}
+                            <a href="{% url 'eliminar_hermano' ficha.pk %}" class="btn btn-sm btn-danger" title="Eliminar">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="text-muted text-center mt-4">No hay fichas disponibles.</p>
+    {% endif %}
+</div>
+
+<!-- Scripts DataTables -->
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#tablahermanos').DataTable({
+            "language": {
+                "sProcessing": "Procesando...",
+                "sLengthMenu": "Mostrar _MENU_ registros",
+                "sZeroRecords": "No se encontraron resultados",
+                "sEmptyTable": "Ningún dato disponible en esta tabla",
+                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix": "",
+                "sSearch": "Buscar:",
+                "sUrl": "",
+                "sInfoThousands": ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst": "Primero",
+                    "sLast": "Último",
+                    "sNext": "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            },
+            "pageLength": 10,
+            "order": [[0, "asc"]],
+            "columnDefs": [
+                {
+                    "targets": 3,
+                    "orderable": false,
+                    "searchable": false
+                }
+            ]
+        });
+    });
+</script>
+
+{% endblock %}

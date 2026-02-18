@@ -1,0 +1,44 @@
+{% extends 'lumenApp/base.html' %}
+
+{% block title %}Asignar Participante a {{ culto.tipo.nombre }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center text-success">Asignar Participante a {{ culto.tipo.nombre }}</h2>
+
+    <form method="post" class="mx-auto" style="max-width: 500px;">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label for="hermano" class="form-label">Selecciona Hermano:</label>
+            <select name="hermano" id="hermano" class="form-select">
+                {% for hermano in hermanos %}
+                    <option value="{{ hermano.pk }}">{{ hermano.nombre }} {{ hermano.apellidos }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="rol" class="form-label">Selecciona Rol:</label>
+            <select name="rol" id="rol" class="form-select">
+                {% for rol in roles %}
+                    <option value="{{ rol.pk }}">{{ rol.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="tramo" class="form-label">Tramo (opcional):</label>
+            <input type="number" name="tramo" id="tramo" class="form-control" min="1">
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Asignar</button>
+        </div>
+    </form>
+
+    <div class="text-center mt-3">
+        <a href="{% url 'detalle_culto' culto.pk %}" class="btn btn-secondary">Volver al detalle del culto</a>
+    </div>
+</div>
+{% endblock %}

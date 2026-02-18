@@ -1,0 +1,17 @@
+{% extends 'lumenApp/base.html' %}
+
+{% block title %}Eliminar Cuota{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center text-danger">Eliminar Cuota</h2>
+
+    <p class="text-center">¿Deseas eliminar la cuota de {{ cuota.importe }} € para {{ cuota.hermano.nombre }} {{ cuota.hermano.apellidos }}?</p>
+
+    <form method="post" class="text-center">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger me-2">Eliminar</button>
+        <a href="{% url 'cuota_lista' cuota.hermano.pk %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

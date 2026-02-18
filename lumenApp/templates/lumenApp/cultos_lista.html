@@ -1,0 +1,47 @@
+{% extends 'lumenApp/base.html' %}
+
+{% block title %}Lista de Cultos{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center text-success">Lista de Cultos</h2>
+
+    {% if es_admin %}
+    <div class="mb-3">
+        <form method="get" class="d-flex gap-2">
+            <select name="tipo" class="form-select" style="max-width: 250px;" onchange="this.form.submit()">
+                <option value="">-- Filtrar por tipo de culto --</option>
+                {% for tipo in tipos %}
+                    <option value="{{ tipo.id }}" {% if tipo.id|stringformat:"s" == tipo_seleccionado %}selected{% endif %}>{{ tipo.nombre }}</option>
+                {% endfor %}
+            </select>
+            {% if tipo_seleccionado %}
+                <a href="{% url 'cultos_lista' %}" class="btn btn-secondary btn-sm">Limpiar filtro</a>
+            {% endif %}
+        </form>
+    </div>
+    {% endif %}
+
+    {% if cultos %}
+    <div class="list-group">
+        {% for culto in cultos %}
+        <div class="list-group-item d-flex justify-content-between align-items-center mb-2 shadow-sm rounded">
+            <span>{{ culto.tipo.nombre }} ({{ culto.fecha_inicio }}{% if culto.fecha_fin %} - {{ culto.fecha_fin }}{% endif %})</span>
+            <div>
+                <a href="{% url 'detalle_culto' culto.pk %}" class="btn btn-sm btn-info">Ver detalle</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p class="text-muted text-center">No hay cultos disponibles.</p>
+    {% endif %}
+
+    {% if es_admin %}
+        <div class="text-center mt-3">
+            <a href="{% url 'crear_culto' %}" class="btn btn-primary">Crear nuevo culto</a>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'lumenApp/base.html' %}
+
+{% block title %}{{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center text-primary mb-4">
+        {% if ficha %}Editar Ficha de {{ ficha.nombre }} {{ ficha.apellidos }}{% else %}Crear nueva ficha{% endif %}
+    </h2>
+
+    <div class="card p-4 shadow-sm mb-3">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success mt-2">Guardar cambios</button>
+            <a href="{% url 'fichas_lista' %}" class="btn btn-secondary mt-2">Volver a la lista</a>
+        </form>
+    </div>
+
+    {% if ficha %}
+    <div class="card p-3 bg-light">
+        <h4>Eliminar ficha</h4>
+        <form method="post" action="{% url 'eliminar_hermano' ficha.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger mt-2">Eliminar esta ficha</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

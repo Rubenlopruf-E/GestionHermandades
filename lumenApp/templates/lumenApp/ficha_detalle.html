@@ -1,0 +1,49 @@
+{% extends "lumenApp/base.html" %}
+
+{% block title %}Detalle de {{ hermano.nombre }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center text-primary mb-4">Detalle de {{ hermano.nombre }} {{ hermano.apellidos }}</h1>
+
+    <div class="card mb-3 shadow-sm">
+        <div class="card-body">
+            <p><strong>DNI:</strong> {{ hermano.dni }}</p>
+            <p><strong>Fecha de nacimiento:</strong> {{ hermano.fecha_nacimiento }}</p>
+            <p><strong>Fecha de ingreso:</strong> {{ hermano.fecha_ingreso }}</p>
+            <p><strong>Estado:</strong> {{ hermano.estado }}</p>
+
+            {% if hermano.imagen %}
+                <div class="text-center my-3">
+                    <img src="{{ hermano.imagen.url }}" class="img-thumbnail" style="max-width:200px;" alt="Imagen de {{ hermano.nombre }}">
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <h3 class="text-secondary mt-4">Roles asignados:</h3>
+    <ul class="list-group mb-3">
+       {% for hr in hermano.hermanorol_set.all %}
+            <li class="list-group-item">
+                {{ hr.rol.nombre }} - Inicio: {{ hr.fecha_inicio }} {% if hr.fecha_fin %}- Fin: {{ hr.fecha_fin }}{% endif %}
+            </li>
+        {% empty %}
+            <li class="list-group-item text-muted">No tiene roles asignados</li>
+        {% endfor %}
+    </ul>
+
+    {% if es_admin %}
+    <div class="mb-4">
+        <a href="{% url 'asignar_rol' hermano.pk %}" class="btn btn-success me-2">Asignar Rol</a>
+        <a href="{% url 'eliminar_rol' hermano.pk %}" class="btn btn-danger">Eliminar Rol</a>
+    </div>
+    {% endif %}
+
+    <h3 class="text-secondary mt-4">Cuotas</h3>
+    <a href="{% url 'cuota_lista' hermano.pk %}" class="btn btn-primary mb-3">Ver cuotas</a>
+
+    <div class="mt-4">
+        <a href="{% url 'fichas_lista' %}" class="btn btn-secondary">Volver a la lista</a>
+    </div>
+</div>
+{% endblock %}

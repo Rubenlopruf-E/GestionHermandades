@@ -1,0 +1,16 @@
+{% extends 'lumenApp/base.html' %}
+
+{% block title %}Eliminar Ficha - {{ ficha.nombre }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+    <h2 class="text-danger mb-4">Eliminar Ficha de {{ ficha.nombre }} {{ ficha.apellidos }}</h2>
+    <p class="mb-4">¿Estás seguro de que deseas eliminar esta ficha? Esta acción no se puede deshacer.</p>
+
+    <form method="post" class="d-inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    </form>
+    <a href="{% url 'fichas_lista' %}" class="btn btn-secondary">Cancelar</a>
+</div>
+{% endblock %}

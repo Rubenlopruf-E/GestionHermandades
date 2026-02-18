@@ -1,0 +1,29 @@
+{% extends 'lumenApp/base.html' %}
+{% block title %}Estadísticas{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Estadísticas generales</h2>
+
+    <h4>Hermanos</h4>
+    <ul class="list-group mb-3">
+        <li class="list-group-item">Total: {{ total_hermanos }}</li>
+        <li class="list-group-item text-success">Activos: {{ hermanos_activos }}</li>
+        <li class="list-group-item text-warning">Inactivos: {{ hermanos_inactivos }}</li>
+        <li class="list-group-item text-danger">Suspendidos: {{ hermanos_suspendidos }}</li>
+    </ul>
+
+    <h4>Cuotas</h4>
+    <ul class="list-group mb-3">
+        <li class="list-group-item">Total de cuotas: {{ total_cuotas }}</li>
+        <li class="list-group-item text-success">Importe pagado: {{ importe_pagado }} €</li>
+        <li class="list-group-item text-danger">Importe pendiente: {{ importe_pendiente }} €</li>
+        <li class="list-group-item">Importe total: {{ importe_total }} €</li>
+    </ul>
+
+    <h4>Cultos</h4>
+    <ul class="list-group mb-3">
+        <li class="list-group-item">Total de cultos: {{ total_cultos }}</li>
+    </ul>
+</div>
+{% endblock %}

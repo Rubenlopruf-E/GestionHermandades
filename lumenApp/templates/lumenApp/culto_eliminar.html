@@ -1,0 +1,19 @@
+{% extends 'lumenApp/base.html' %}
+
+{% block title %}Eliminar Culto - {{ culto.tipo.nombre }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-3 text-center text-danger">Eliminar Culto</h2>
+
+    <p class="text-center">¿Estás seguro de que quieres eliminar el culto "{{ culto.tipo.nombre }}"?</p>
+
+    <div class="text-center">
+        <form method="post" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+        </form>
+        <a href="{% url 'detalle_culto' culto.pk %}" class="btn btn-secondary ms-2">Cancelar</a>
+    </div>
+</div>
+{% endblock %}
